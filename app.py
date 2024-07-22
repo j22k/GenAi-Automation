@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify,url_for
 import logging
+from Bot import chat
 
 app = Flask(__name__)
 
@@ -20,7 +21,7 @@ def dummy():
 val = dummy()
 
 @app.route('/')
-def hello_world():
+def index():
     return render_template('index.html')
 
 @app.route('/sign_in', methods=['POST'])
@@ -29,9 +30,8 @@ def signin():
     username = data.get('username')
     password = data.get('password')
     logging.debug(f"Username: {username}, Password: {password}")
-
-    response = {"status": "success", "message": "Sign-in successful"}
-    return jsonify(response)
+    response = {"status": "success", "message": "Sign-in successful", "user" : "admin"}
+    return render_template('admin/home.html')
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
@@ -40,20 +40,21 @@ def send_message():
     msg = data.get('msg')
     # Directly call sign-in logic
     username, password, name = val
-    # You can replace this with actual sign-in logic
-    sign_in_response = {"status": "success", "message": "Sign-in successful"}  # Mock response
-
-    # import requests
-    # response = requests.post('http://127.0.0.1:5000/sign_in', json={'username': val[0], 'password': val[1]})
-
-    logging.debug(f"Sign-in response: {sign_in_response}")
+    logging.debug(val)
+    chat_instance = chat()
+    response = chat_instance.chat_with_message(val)
     logging.debug(f"Received message: {msg}")
+    logging.debug(f"response {response}")
+    redirect_url = url_for('admin_home', message=response)
+    logging.debug(redirect_url)
+    return jsonify({
+        'redirectUrl': redirect_url,
+        'response': response
+    })
 
-    return jsonify({"status": "success", "message": "Message received!"})
-
-@app.route('/home')
-def home():
-    return render_template('home.html')
+@app.route('/admin_home')
+def admin_home():
+    return render_template('admin/home.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

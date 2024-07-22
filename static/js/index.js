@@ -30,7 +30,11 @@ function sendMessage() {
         })
         .then(response => response.json())
         .then(data => {
-            displayResponse(data.message);
+            console.log(data);
+            displayResponse(data.response.message);
+            // Redirect to the new URL provided by the server
+            window.location.href = data.redirectUrl;
+            console.log(data.redirectUrl);
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -47,14 +51,22 @@ function displayResponse(response) {
     messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to the bottom
 }
 
-document.getElementById('chatForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
-    sendMessage();
-});
 
-document.getElementById('msg').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
+
+// Function to open the login modal
+function openLoginModal() {
+    document.getElementById('id01').style.display = 'block';
+}
+
+// Function to close the login modal
+function closeLoginModal() {
+    document.getElementById('id01').style.display = 'none';
+}
+
+// Close the modal when clicking outside of it
+window.onclick = function(event) {
+    var modal = document.getElementById('id01');
+    if (event.target == modal) {
+        modal.style.display = 'none';
     }
-});
+}
