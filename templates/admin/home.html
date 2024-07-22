@@ -24,7 +24,9 @@
     <h2>Camerin Admin Demo</h2>
     <div class="nav-links">
         <!-- Add additional links here if needed -->
-        <a href="#">Home</a>
+        <a href="#" data-url="/home">Home</a>
+        <a href="#" data-url="/add_inventory_user">Add Inventory User</a>
+        <a href="#" data-url="/logout">Logout</a>
     </div>
 </div>
 
@@ -49,38 +51,11 @@
         </form>
     </div>
 </div>
-<div id="id01" class="modal">
-    <div class="modal-content animate">
-        <div class="imgcontainer">
-            <span onclick="closeLoginModal()" class="close" title="Close Modal">&times;</span>
-            <img src="/Users/speed/Desktop/camerin_demo/BT.png" alt="" class="avatar">
-        </div>
-        <h2>WELCOME USER</h2>
-        <form action="" method="post">
-            <div class="container">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
-        
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
-                  
-                <button type="submit">Login</button>
-                <label>
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
-            </div>
-        
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" onclick="closeLoginModal()" class="cancelbtn">Cancel</button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
-            </div>
-        </form>
-    </div>
-</div>
+
 
   
 
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin/home.js') }}"></script>
 
 </body>
 </html>

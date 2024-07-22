@@ -1,11 +1,22 @@
 from flask import Flask, render_template, request, jsonify,url_for
 import logging
+import pymongo
 from Bot import chat
+from config.connection import db_connect
+from config.collections import Collection
+from routes.admin_routes import admin_routes
+
 
 app = Flask(__name__)
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
+
+print(Collection)
+res = db_connect()
+
+
+app.register_blueprint(admin_routes, url_prefix='/admin')
 
 def dummy():
     function_sign_in = [
@@ -27,10 +38,10 @@ def index():
 @app.route('/sign_in', methods=['POST'])
 def signin():
     data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-    logging.debug(f"Username: {username}, Password: {password}")
-    response = {"status": "success", "message": "Sign-in successful", "user" : "admin"}
+    if data is None:
+        return jsonify({"error": "Request must be JSON"}), 400
+
+    logging.debug(data)
     return render_template('admin/home.html')
 
 @app.route('/send_message', methods=['POST'])

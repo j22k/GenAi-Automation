@@ -51,8 +51,6 @@ function displayResponse(response) {
     messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to the bottom
 }
 
-
-
 // Function to open the login modal
 function openLoginModal() {
     document.getElementById('id01').style.display = 'block';
