@@ -111,7 +111,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
             opacity: 1;
         }
         .navbar {
-            background-color: #333;
+            background:linear-gradient(to bottom,#0a9ff0,#168b4179);
             color: white;
             padding: 14px 20px;
             position: fixed;

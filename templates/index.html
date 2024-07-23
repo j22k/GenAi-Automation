@@ -58,23 +58,23 @@
             <span onclick="closeLoginModal()" class="close" title="Close Modal">&times;</span>
         </div>
         <h2>WELCOME USER</h2>
-        <form action="/sign_in" method="post">
+        <form id="loginForm">
             <div class="container">
                 <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
-        
+                <input type="text" placeholder="Enter Username" name="username" required>
+            
                 <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+                <input type="password" placeholder="Enter Password" name="password" required>
                   
                 <button type="submit">Login</button>
-                <label>
+                <!-- <label>
                     <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
+                </label> -->
             </div>
-        
+            
             <div class="container" style="background-color:#f1f1f1">
                 <button type="button" onclick="closeLoginModal()" class="cancelbtn">Cancel</button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
+                <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
             </div>
         </form>
     </div>

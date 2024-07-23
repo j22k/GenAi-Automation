@@ -1,20 +1,23 @@
-from flask import Flask, render_template, request, jsonify,url_for
+from flask import Flask, render_template, request, jsonify, url_for
 import logging
-import pymongo
-from Bot import chat
-from config.connection import db_connect
+from config.connection import get_db
 from config.collections import Collection
 from routes.admin_routes import admin_routes
+from function_calling import functons_background
 
+functions_instance = functons_background()
 
 app = Flask(__name__)
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-print(Collection)
-res = db_connect()
-
+# Initialize database connection
+db_connection = get_db()
+if db_connection["status"] == "error":
+    logging.error(f"Database connection failed: {db_connection['message']}")
+else:
+    logging.info("Database connection established successfully.")
 
 app.register_blueprint(admin_routes, url_prefix='/admin')
 
@@ -38,11 +41,13 @@ def index():
 @app.route('/sign_in', methods=['POST'])
 def signin():
     data = request.get_json()
-    if data is None:
-        return jsonify({"error": "Request must be JSON"}), 400
-
-    logging.debug(data)
-    return render_template('admin/home.html')
+    if request.is_json:
+            data = request.get_json()
+            response = functons_background.log_in(data["username"],data["password"])
+            return jsonify({'message': 'Login successful', 'data': data}), 200
+    else:
+            return jsonify({'error': 'Unsupported Media Type'}), 415
+   
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
