@@ -249,26 +249,6 @@ window.onclick = function(event) {
     }
 };
 
-// Handle form submission for modal2
-document.getElementById('registrationFormDoctorUse').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent form submission
-
-    // Collect form data
-    const password = document.getElementById('password2').value;
-    const confirmPassword = document.getElementById('confirmPassword2').value;
-
-    // Basic validation
-    if (password !== confirmPassword) {
-        alert('Passwords do not match!');
-        return;
-    }
-
-    // Submit the form data (you can replace this with actual form submission logic)
-    alert(`Username: ${username}\nEmail: ${email}`);
-
-    // Close modal
-    closeModal('modal2');
-});
 // Function to open a specific modal
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
@@ -296,7 +276,7 @@ window.onclick = function(event) {
 
 // Handle form submission for modal4
 document.getElementById('registrationFormNurse').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault()
 
     const password = document.getElementById('password4').value;
     const confirmPassword = document.getElementById('confirmPassword4').value;

@@ -343,3 +343,58 @@ body {font-family: Arial, Helvetica, sans-serif;}
         .psw {
             float: right;
         }
+/* Base styles for alert */
+.alert {
+    padding: 15px;
+    margin: 20px 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: relative;
+    display: none; /* Hidden by default, will be shown when needed */
+}
+
+/* Danger alert */
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Close button styles */
+.alert .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #000;
+    opacity: 0.5;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.alert .close:hover {
+    opacity: 1;
+}
+
+/* Optional: Add animation for showing/hiding the alert */
+.alert.show {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+.alert.hide {
+    display: none;
+    animation: fadeOut 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}

@@ -1,13 +1,16 @@
-from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask, render_template, request, jsonify, url_for,redirect,session
 import logging
 from config.connection import get_db
-from config.collections import Collection
+from config.config import Config
 from routes.admin_routes import admin_routes
 from function_calling import functons_background
+from Bot import chat
 
 functions_instance = functons_background()
+chat_instance = chat()
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -38,13 +41,24 @@ val = dummy()
 def index():
     return render_template('index.html')
 
+@app.route("/logout")
+def logout():
+    # Clear the session
+    session.clear()
+    return redirect("/")
+
 @app.route('/sign_in', methods=['POST'])
 def signin():
     data = request.get_json()
     if request.is_json:
             data = request.get_json()
             response = functons_background.log_in(data["username"],data["password"])
-            return jsonify({'message': 'Login successful', 'data': data}), 200
+            logging.debug(response)
+            if response["status"]:
+                return jsonify(response), 200
+            else:
+                return jsonify(response), 401
+                 
     else:
             return jsonify({'error': 'Unsupported Media Type'}), 415
    
@@ -57,7 +71,7 @@ def send_message():
     # Directly call sign-in logic
     username, password, name = val
     logging.debug(val)
-    chat_instance = chat()
+    
     response = chat_instance.chat_with_message(val)
     logging.debug(f"Received message: {msg}")
     logging.debug(f"response {response}")

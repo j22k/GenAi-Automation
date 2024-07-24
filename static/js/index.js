@@ -84,9 +84,24 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Success:', data);
+        if (data.status) {
+            
+        } else {
+            showAlert('danger-alert', data.message);
+        }
     })
     .catch((error) => {
         console.error('Error:', error);
     });
 });
+
+function showAlert(alertId, message) {
+    const alertElement = document.getElementById(alertId);
+    alertElement.innerText = message;
+    alertElement.style.display = 'block';
+
+    // Automatically hide the alert after 5 seconds (optional)
+    setTimeout(() => {
+        alertElement.style.display = 'none';
+    }, 5000);
+}
