@@ -84,8 +84,28 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     })
     .then(response => response.json())
     .then(data => {
+        console.log(data);
         if (data.status) {
-            
+            if (data.render == "admin/home") {
+                const params = new URLSearchParams({
+                    id: data._id,
+                    name: data.name,
+                    userType: data.User
+                }).toString();
+               
+                window.location.href = `/admin/home?${params}`;
+            } else if (data.render == "op/home") {
+                const params = new URLSearchParams({
+                    id: data._id,
+                    name: data.name,
+                    userType: data.User
+                }).toString();
+                window.location.href = `/op/home?${params}`;
+            } else {
+                
+            } {
+                
+            }
         } else {
             showAlert('danger-alert', data.message);
         }

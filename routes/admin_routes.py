@@ -1,9 +1,21 @@
 import logging
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request,render_template
 from helpers.admin_helpers import insert_inventory_user,insert_doctor_user,insert_op_user,insert_nurse_user
 
-admin_routes = Blueprint('admin_routes', __name__)
+admin_routes = Blueprint('admin_routes', __name__, template_folder='templates')
 
+
+@admin_routes.route('/home')
+def admin_home():
+    full_url = request.url
+    args = request.args
+    logging.debug(f"Full URL: {full_url}")
+    logging.debug(f"Query Parameters: {args}")
+    user_id = args.get('id', 'Not Provided')
+    name = args.get('name', 'Not Provided')
+    user_type = args.get('userType', 'Not Provided')
+    logging.debug(f"user_id: {user_id}, name: {name}, user_type: {user_type}")
+    return render_template('admin/home.html', user_id=user_id, name=name, user_type=user_type)
 
 @admin_routes.route('/add_inventory_user', methods=['POST'])
 def add_inventory_user():

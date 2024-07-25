@@ -17,7 +17,7 @@ def authenticate_user(username,password):
             if user["password"] == password:
                 session["userID"] = str(user["_id"])
                 print(f"Session : {session} \n User : {Collection["DOCTOR_USER"]}")
-                return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"]}
+                return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"],"User" : Collection["DOCTOR_USER"],"render" : "doctor/home"}
             else:
                 return {"status": False, "message": "Wrong Password"}
         else:
@@ -25,9 +25,9 @@ def authenticate_user(username,password):
             user = db.op_user.find_one({"username" : username})
             if user:
                 if user["password"] == password:
-                    session["userID"] = user["_id"]
+                    session["userID"] = str(user["_id"])
                     print(f"Session : {session} \n User : {Collection["OP_USER"]}")
-                    return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"]}
+                    return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"], "User" : Collection["OP_USER"],"render" : "op/home"}
                 else:
                     return {"status": False, "message": "Wrong Password"}
             else:
@@ -35,9 +35,9 @@ def authenticate_user(username,password):
                 user = db.nurse_user.find_one({"username" : username})
                 if user:
                     if user["password"] == password:
-                        session["userID"] = user["_id"]
+                        session["userID"] = str(user["_id"])
                         print(f"Session : {session} \n User : {Collection["NURSE_USER"]}")
-                        return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"]}
+                        return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"],"User" : Collection["NURSE_USER"],"render" : "nurse/home"}
                     else:
                         return {"status": False, "message": "Wrong Password"}
                 else:
@@ -45,19 +45,19 @@ def authenticate_user(username,password):
                     user = db.inventory_user.find_one({"username" : username})
                     if user:
                         if user["password"] == password:
-                            session["userID"] = user["_id"]
+                            session["userID"] = str(user["_id"])
                             print(f"Session : {session} \n User : {Collection["INVENTORY_USER"]}")
-                            return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"]}
+                            return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"],"User" : Collection["INVENTORY_USER"], "render" : "inventory/home"}
                         else:
                             return {"status": False, "message": "Wrong Password"}
                     else:
                         #authenticating admin    
-                        user = db.admin_user.find_one({"username" : username})
+                        user = db.admin.find_one({"username" : username})
                         if user:
                             if user["password"] == password:
-                                session["userID"] = user["_id"]
+                                session["userID"] =str(user["_id"])
                                 print(f"Session : {session} \n User : {Collection["ADMIN_USER"]}")
-                                return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"]}
+                                return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"],"User" : Collection["ADMIN_USER"], "render" : "admin/home"}
                             else:
                                 return {"status": False, "message": "Wrong Password"}
                         else:

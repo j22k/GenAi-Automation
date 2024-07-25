@@ -3,8 +3,10 @@ import logging
 from config.connection import get_db
 from config.config import Config
 from routes.admin_routes import admin_routes
+from routes.op_routes import op_routes
 from function_calling import functons_background
 from Bot import chat
+from config.collections import Collection
 
 functions_instance = functons_background()
 chat_instance = chat()
@@ -23,6 +25,7 @@ else:
     logging.info("Database connection established successfully.")
 
 app.register_blueprint(admin_routes, url_prefix='/admin')
+app.register_blueprint(op_routes, url_prefix='/op')
 
 def dummy():
     function_sign_in = [
@@ -53,9 +56,19 @@ def signin():
     if request.is_json:
             data = request.get_json()
             response = functons_background.log_in(data["username"],data["password"])
-            logging.debug(response)
             if response["status"]:
-                return jsonify(response), 200
+                if response["User"] == Collection["DOCTOR_USER"]:
+                     return True
+                elif response["User"] == Collection["OP_USER"]:
+                     return response
+                elif response["User"] == Collection["NURSE_USER"]:
+                     return True
+                elif response["User"] == Collection["INVENTORY_USER"]:
+                     return True
+                elif response["User"] == Collection["ADMIN_USER"]:
+                     return response
+                else :
+                     logging.debug("\n\n Somthing in  response \n\n",response)
             else:
                 return jsonify(response), 401
                  

@@ -1,12 +1,15 @@
-// Function to open the chat form
-function openForm() {
-    document.getElementById('myForm').style.display = 'block';
-}
 
-// Function to close the chat form
-function closeForm() {
-    document.getElementById('myForm').style.display = 'none';
-}
+    // Function to open the chat form
+    function openForm() {
+        const form = document.getElementById('myForm');
+        form.classList.add('active'); // Add active class to show the form
+    }
+    
+    // Function to close the chat form
+    function closeForm() {
+        const form = document.getElementById('myForm');
+        form.classList.remove('active'); // Remove active class to hide the form
+    }
 
 // Function to send a message
 function sendMessage() {
@@ -41,7 +44,16 @@ function displayResponse(response) {
     messageContainer.appendChild(backendMessage);
     messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to the bottom
 }
+function handleClickOutside(event) {
+    const form = document.getElementById('myForm');
+    const button = document.querySelector('.open-button');
+    if (form.classList.contains('active') && !form.contains(event.target) && event.target !== button) {
+        closeForm();
+    }
+}
 
+// Add event listener to the document to handle clicks outside
+document.addEventListener('click', handleClickOutside);
 // Event listener for the Enter key in the textarea
 document.getElementById('msg').addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -72,9 +84,7 @@ document.getElementById('box2').addEventListener('click', function() {
 document.getElementById('box3').addEventListener('click', function() {
     openModal('modal3');
 });
-document.getElementById('box4').addEventListener('click', function() {
-    openModal('modal4');
-});
+
 // Close modals when clicking outside of them
 window.onclick = function(event) {
     const modals = document.getElementsByClassName('custom-modal'); // Updated class name
@@ -88,76 +98,25 @@ window.onclick = function(event) {
 // Form Submission Logic
 document.getElementById('registrationForm').addEventListener('submit', function(e) {
     e.preventDefault(); // Prevent form submission
+
+    // Collect form data
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-    
+
     // Basic validation
     if (password !== confirmPassword) {
         alert('Passwords do not match!');
         return;
     }
-    
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-    
-    fetch('admin/add_doctor_user', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status) {
-            alert(`User ${data.name} created successfully`)
-            closeModal('modal2');
-        } else {
-            showAlert('danger-alert', data.message);
-        }
-    })
-    .catch((error) => {
-        showAlert('danger-alert', error);
-    });
 
+    // Submit the form data (you can replace this with actual form submission logic)
+    alert(`Username: ${username}\nEmail: ${email}`);
+
+    // Close modal
+    closeModal('registrationModal');
 });
-
-document.getElementById('registrationForm3').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent form submission
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    
-    // Basic validation
-    if (password !== confirmPassword) {
-        alert('Passwords do not match!');
-        return;
-    }
-    
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-    
-    fetch('/admin/add_op_user', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status) {
-            alert(`User ${data.name} created successfully`)
-            closeModal('modal3');
-        } else {
-            showAlert('danger-alert', data.message);
-        }
-    })
-    .catch((error) => {
-        showAlert('danger-alert', error);
-    });
-
-});
-
 // Function to open a specific modal
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
@@ -184,45 +143,26 @@ window.onclick = function(event) {
 };
 
 // Handle form submission for modal2
-document.getElementById('registrationFormInventoryUser').addEventListener('submit', function(e) {
+document.getElementById('registrationForm2').addEventListener('submit', function(e) {
     e.preventDefault(); // Prevent form submission
 
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    
+    // Collect form data
+    const username = document.getElementById('username2').value;
+    const email = document.getElementById('email2').value;
+    const password = document.getElementById('password2').value;
+    const confirmPassword = document.getElementById('confirmPassword2').value;
 
     // Basic validation
     if (password !== confirmPassword) {
         alert('Passwords do not match!');
         return;
     }
-    
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-    
-    fetch('admin/add_inventory_user', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        if (data.status) {
-            alert(`User ${data.name} created successfully`)
-            closeModal('modal2');
-        } else {
-            showAlert('danger-alert', data.message);
-        }
-    })
-    .catch((error) => {
-        showAlert('danger-alert', error);
-    });
 
-   
-    
+    // Submit the form data (you can replace this with actual form submission logic)
+    alert(`Username: ${username}\nEmail: ${email}`);
+
+    // Close modal
+    closeModal('modal2');
 });
 // Function to open a specific modal
 function openModal(modalId) {
@@ -249,6 +189,28 @@ window.onclick = function(event) {
     }
 };
 
+// Handle form submission for modal2
+document.getElementById('registrationForm2').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent form submission
+
+    // Collect form data
+    const username = document.getElementById('username2').value;
+    const email = document.getElementById('email2').value;
+    const password = document.getElementById('password2').value;
+    const confirmPassword = document.getElementById('confirmPassword2').value;
+
+    // Basic validation
+    if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+    }
+
+    // Submit the form data (you can replace this with actual form submission logic)
+    alert(`Username: ${username}\nEmail: ${email}`);
+
+    // Close modal
+    closeModal('modal2');
+});
 // Function to open a specific modal
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
@@ -275,22 +237,89 @@ window.onclick = function(event) {
 };
 
 // Handle form submission for modal4
-document.getElementById('registrationFormNurse').addEventListener('submit', function(e) {
-    e.preventDefault()
+document.getElementById('registrationForm4').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent form submission
 
+    // Collect form data
+    const username = document.getElementById('username4').value;
+    const email = document.getElementById('email4').value;
     const password = document.getElementById('password4').value;
     const confirmPassword = document.getElementById('confirmPassword4').value;
-    
+
     // Basic validation
     if (password !== confirmPassword) {
         alert('Passwords do not match!');
         return;
     }
+
+    // Submit the form data (you can replace this with actual form submission logic)
+    alert(`Username: ${username}\nEmail: ${email}`);
+
+    // Close modal
+    closeModal('modal4');
+});
+// Function to open the patient registration modal
+function openPatientRegistrationModal() {
+    var modal = document.getElementById('modal2');
+    modal.style.display = 'block';
+}
+
+// Function to close the patient registration modal
+function closePatientRegistrationModal() {
+    var modal = document.getElementById('modal2');
+    modal.style.display = 'none';
+}
+
+// Close the modal if the user clicks outside of it
+window.onclick = function(event) {
+    var modal = document.getElementById('modal2');
+    if (event.target === modal) {
+        closePatientRegistrationModal();
+    }
+};
+// Function to open the patient registration modal
+function openPatientRegistrationModal() {
+    var modal = document.getElementById('modal2');
+    modal.style.display = 'block';
+}
+
+// Function to close the patient registration modal
+function closePatientRegistrationModal() {
+    var modal = document.getElementById('modal2');
+    modal.style.display = 'none';
+}
+
+// Close the modal if the user clicks outside of it
+window.addEventListener('click', function(event) {
+    var modal = document.getElementById('modal2');
+    var modalContent = document.querySelector('.custom-modal-content');
+
+    if (event.target === modal && !modalContent.contains(event.target)) {
+        closePatientRegistrationModal();
+    }
+});
+function copyTokenNumber() {
+    // Get the input element
+    var tokenInput = document.getElementById('tokenNumber');
     
+    // Select the text inside the input field
+    tokenInput.select();
+    tokenInput.setSelectionRange(0, 99999); // For mobile devices
+    
+    // Copy the text inside the input field
+    document.execCommand('copy');
+    
+    // Optionally, provide feedback
+    alert('Token number copied to clipboard!');
+}
+
+document.getElementById('patientRegistrationForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent form submission
+
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
     
-    fetch('admin/add_nurse_user', {
+    fetch('op/patient_registration', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -300,8 +329,9 @@ document.getElementById('registrationFormNurse').addEventListener('submit', func
     .then(response => response.json())
     .then(data => {
         if (data.status) {
-            alert(`User ${data.name} created successfully`);
-            closeModal('modal4'); 
+            const tokenInput = document.getElementById('tokenNumber');
+            tokenInput.value = data.user_idX;
+            alert(data.message);
         } else {
             showAlert('danger-alert', data.message);
         }
@@ -309,15 +339,13 @@ document.getElementById('registrationFormNurse').addEventListener('submit', func
     .catch((error) => {
         showAlert('danger-alert', error);
     });
+
+    return false; // Ensure the form doesn't reload the page
 });
 
-function showAlert(alertId, message) {
-    const alertElement = document.getElementById(alertId);
-    alertElement.innerText = message;
-    alertElement.style.display = 'block';
 
-    // Automatically hide the alert after 5 seconds (optional)
-    setTimeout(() => {
-        alertElement.style.display = 'none';
-    }, 5000);
-}
+// Example usage: openPatientRegistrationModal();
+
+// Example usage: openPatientRegistrationModal();
+
+
