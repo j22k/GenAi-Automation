@@ -1,25 +1,49 @@
 import requests
 import logging
 from function_calling import functons_background
+from config.config import GROQ_API
+from groq import Groq
+
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
+client = Groq(
+    api_key=GROQ_API,
+)
+
 functions_instance = functons_background()
+
+
 
 functions_name = ("Sign_in")
 functions = {
     "Sign_in" : (functons_background.log_in,("value1","value2"))
 }
 
+model_name="llama3-70b-8192"
+system_prompt = {
+    "role": "system",
+    "content":
+    "You are a helpful assistant. You reply with very precise answers."
+    }
+chat_history = [system_prompt]
 
 class chat:
+    
     def chat_with_message(self, message):
         try:
-            #write model response code and get getr mode response json with name and arguments
 
-            find_matching_function(functions_name ,message[2])
+            chat_history.append({"role": "user", "content": message})
 
-            return switch_case(message)
+            chat_completion = client.chat.completions.create(model=model_name,
+                                            messages=chat_history,
+                                            max_tokens=100,
+                                            temperature=1.2
+        )
+            print(f"\n\n{chat_completion}\n\n")
+            print(f"\n\n{chat_completion.choices[0].message.content}\n\n")
+            return ({"response_message" : chat_completion.choices[0].message.content})
+        
         except requests.exceptions.HTTPError as http_err:
             logging.error(f"HTTP error occurred: {http_err}")
             return {"status": "error", "message": "HTTP error occurred"}

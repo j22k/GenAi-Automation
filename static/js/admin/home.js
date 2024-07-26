@@ -15,19 +15,31 @@ function sendMessage() {
     const message = messageInput.value;
 
     if (message.trim() !== "") {
+        // Display the user message
         const userMessage = document.createElement('div');
         userMessage.classList.add('chat-message', 'user');
         userMessage.textContent = message;
-
         messageContainer.appendChild(userMessage);
         messageInput.value = '';
         messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll to the bottom
 
-        // Simulate backend response
-        setTimeout(() => {
-            const backendResponse = `Backend response to: ${message}`;
-            displayResponse(backendResponse);
-        }, 1000);
+        // Send the message to the backend
+        fetch('/send_message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ msg: message }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            displayResponse(data.response_message);
+            
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }
 }
 
@@ -100,7 +112,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
     
-    fetch('admin/add_doctor_user', {
+    fetch('/admin/add_doctor_user', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -200,7 +212,7 @@ document.getElementById('registrationFormInventoryUser').addEventListener('submi
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
     
-    fetch('admin/add_inventory_user', {
+    fetch('/admin/add_inventory_user', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -290,7 +302,7 @@ document.getElementById('registrationFormNurse').addEventListener('submit', func
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
     
-    fetch('admin/add_nurse_user', {
+    fetch('/admin/add_nurse_user', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

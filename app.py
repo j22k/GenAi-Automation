@@ -11,9 +11,9 @@ from config.collections import Collection
 functions_instance = functons_background()
 chat_instance = chat()
 
+
 app = Flask(__name__)
 app.config.from_object(Config)
-
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -46,9 +46,12 @@ def index():
 
 @app.route("/logout")
 def logout():
-    # Clear the session
-    session.clear()
-    return redirect("/")
+    if(session):
+        session.clear()
+        return redirect("/")
+    else:
+        return redirect("/")
+    
 
 @app.route('/sign_in', methods=['POST'])
 def signin():
@@ -81,19 +84,16 @@ def send_message():
     
     data = request.get_json()
     msg = data.get('msg')
-    # Directly call sign-in logic
-    username, password, name = val
-    logging.debug(val)
+
+    logging.debug(msg)
     
-    response = chat_instance.chat_with_message(val)
+    response = chat_instance.chat_with_message(msg)
+
     logging.debug(f"Received message: {msg}")
     logging.debug(f"response {response}")
-    redirect_url = url_for('admin_home', message=response)
-    logging.debug(redirect_url)
-    return jsonify({
-        'redirectUrl': redirect_url,
-        'response': response
-    })
+    # redirect_url = url_for('admin_home', message=response)
+    
+    return response
 
 @app.route('/admin_home')
 def admin_home():

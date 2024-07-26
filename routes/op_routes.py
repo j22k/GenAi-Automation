@@ -14,9 +14,10 @@ def admin_home():
     return render_template('op/home.html', user_id=user_id, name=name, user_type=user_type)
 
 
-@op_routes.route('/patient_registration')
+@op_routes.route('/patient_registration', methods=['POST'])
 def op_patient_registration():
-    data = request.get_json()  
-    logging.debug("\n\n",data)
+    data = request.get_json()
+    logging.debug("Received data: %s", data)
     response = addpatientHelpers(data)
-    return response
+    logging.debug("Response: %s", response)
+    return jsonify(response)

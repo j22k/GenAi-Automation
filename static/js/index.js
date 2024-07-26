@@ -31,10 +31,8 @@ function sendMessage() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            displayResponse(data.response.message);
-            // Redirect to the new URL provided by the server
-            window.location.href = data.redirectUrl;
-            console.log(data.redirectUrl);
+            displayResponse(data.response_message);
+            
         })
         .catch((error) => {
             console.error('Error:', error);
