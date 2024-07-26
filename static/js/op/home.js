@@ -56,8 +56,60 @@ document.getElementById('box1').addEventListener('click', function() {
 });
 
 document.getElementById('box2').addEventListener('click', function() {
-    openModal('modal2');
+    openModal('model2');
 });
+
+document.getElementById('box3').addEventListener('click', function() {
+    fetch('/op/get_patient_list', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(patients => {
+        console.log(patients);
+        displayPatientTable(patients)
+        openModal('patientlistmodel');
+        
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+    
+});
+
+
+function displayPatientTable(patients) {
+    const tableBody = document.getElementById('patientTableBody');
+    tableBody.innerHTML = '';  // Clear any existing content
+
+    // Check if patients is an array
+    if (!Array.isArray(patients)) {
+        console.error('Expected an array but got:', patients);
+        return;
+    }
+
+    // Create table rows
+    patients.forEach((patient, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>
+                <input type="text" class="form-control" id="tokenNumber${patient._id}"
+                    placeholder="P Number" value="${patient._id}" required>
+            </td>
+            <td>${patient.firstname}</td>
+            <td>${patient.gender}</td>
+            <td>
+                <button class="btn-icon" title="Edit" text="edit" onclick="editPatient('${patient._id}')">
+                    <img src="" alt="Edit" class="btn-logo">
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}
 
 
 // Close modals when clicking outside of them
@@ -186,19 +238,32 @@ window.addEventListener('click', function(event) {
         closePatientRegistrationModal();
     }
 });
+
+function closePatientListModal() {
+    var modal = document.getElementById('patientlistmodel');
+    modal.style.display = 'none';
+}
+
+// Close the modal if the user clicks outside of it
+window.addEventListener('click', function(event) {
+    var modal = document.getElementById('patientlistmodel');
+    var modalContent = document.querySelector('.custom-modal-content');
+
+    if (event.target === modal && !modalContent.contains(event.target)) {
+        closePatientListModal();
+    }
+});
+
 function copyTokenNumber() {
-    // Get the input element
-    var tokenInput = document.getElementById('tokenNumber');
-    
-    // Select the text inside the input field
+    const tokenInput = document.getElementById('tokenNumber');
+    tokenInput.disabled = false; // Temporarily enable the input for copying
     tokenInput.select();
-    tokenInput.setSelectionRange(0, 99999); // For mobile devices
-    
-    // Copy the text inside the input field
-    document.execCommand('copy');
-    
-    // Optionally, provide feedback
-    alert('Token number copied to clipboard!');
+    navigator.clipboard.writeText(tokenInput.value).then(() => {
+        alert('Token number copied to clipboard');
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
+    tokenInput.disabled = true; 
 }
 document.getElementById('patientRegistrationForm').addEventListener('submit', function(e) {
     e.preventDefault(); // Prevent form submission
@@ -219,6 +284,7 @@ document.getElementById('patientRegistrationForm').addEventListener('submit', fu
             const tokenInput = document.getElementById('tokenNumber');
             tokenInput.value = data.user_id;
             alert(data.message);
+            closePatientRegistrationModal()
         } else {
             showAlert('danger-alert', data.message);
         }
@@ -280,3 +346,64 @@ function showAlert(alertId, message) {
         alertElement.style.display = 'none';
     }, 5000);
 }
+
+// Initialize DataTables
+$(document).ready(function() {
+    $('#patientTable').DataTable({
+        "paging": true,    // Enable pagination
+        "ordering": true,  // Enable column ordering
+        "info": true,      // Enable table information display
+        "searching": true, // Enable the search bar
+        "columnDefs": [
+            { "orderable": false, "targets": [3, 4] } // Disable ordering for Gender and Result columns
+        ],
+        "language": {
+            "paginate": {
+                "next": "Next",       // Custom text for next button
+                "previous": "Previous" // Custom text for previous button
+            }
+        }
+    });
+
+    // Handle dropdown change event
+    $('.gender-dropdown').on('change', function() {
+        const selectedValue = $(this).val();
+        console.log(`Selected gender: ${selectedValue}`);
+    });
+
+    // Handle result link click event
+    $('.result-link').on('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        const href = $(this).attr('href');
+        window.open(href, '_blank'); // Open PDF in a new tab
+    });
+});
+// script.js
+
+// Function to handle Edit button click
+function handleEdit(rowId) {
+    alert(`Edit action for row ID: ${rowId}`);
+    // Implement your edit logic here
+}
+
+// Function to handle Delete button click
+function handleDelete(rowId) {
+    if (confirm(`Are you sure you want to delete row ID: ${rowId}?`)) {
+        alert(`Delete action for row ID: ${rowId}`);
+        // Implement your delete logic here
+    }
+}
+
+// Bind click events to buttons within the table rows
+$(document).ready(function() {
+    $('.btn-icon').on('click', function() {
+        const row = $(this).closest('tr');
+        const rowId = row.find('td:first').text(); // Assuming ID is in the first column
+        
+        if ($(this).find('img').attr('alt') === 'Edit') {
+            handleEdit(rowId);
+        } else if ($(this).find('img').attr('alt') === 'Delete') {
+            handleDelete(rowId);
+        }
+    });
+});

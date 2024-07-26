@@ -1,4 +1,4 @@
-from helpers.op_helpers import addpatientHelpers
+from helpers.op_helpers import addpatientHelpers,getpatientlistHelpers
 import logging
 from flask import Blueprint, jsonify, request,render_template
 
@@ -21,3 +21,9 @@ def op_patient_registration():
     response = addpatientHelpers(data)
     logging.debug("Response: %s", response)
     return jsonify(response)
+
+
+@op_routes.route('/get_patient_list', methods=['GET'])
+def get_patient_list():
+    logging.debug(f"\n\n2\n\n")
+    return jsonify(getpatientlistHelpers())

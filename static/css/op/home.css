@@ -702,3 +702,223 @@ textarea.form-control {
 .btn-copy i {
   margin: 20; /* No margin needed */
 }
+
+
+/* DataTables Customization */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  top: 20p;
+  padding: 0.5em 1em;
+  margin: 0.2em;
+  border-radius: 0.2em;
+  border: 1px solid #ddd;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: #e2e6ea;
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  color: white;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  border: 1px solid #ccc;
+  border-radius: 0.3em;
+  padding: 0.3em;
+  margin-left: 0.5em;
+}
+
+.dataTables_wrapper .dataTables_length select {
+  border: 1
+
+}
+.table th,
+.table td {
+  vertical-align: middle !important;
+}
+
+.gender-dropdown {
+  width: 100px;
+}
+
+.result-link {
+  color: #e74c3c;
+  font-size: 1.5em;
+}
+
+.result-link:hover {
+  color: #c0392b;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+.btn {
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 0.5em 1em;
+  margin: 0.2em;
+  border-radius: 0.2em;
+  border: 1px solid #ddd;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: #e2e6ea;
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  color: white;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  border: 1px solid #ccc;
+  border-radius: 0.3em;
+  padding: 0.3em;
+  margin-left: 0.5em;
+}
+
+.dataTables_wrapper .dataTables_length select {
+  border: 1px solid #ccc;
+  border-radius: 0.3em;
+  padding: 0.3em;
+  margin-left: 0.5em;
+}
+
+.icon-upload,
+.icon-view {
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.icon-upload:hover {
+  color: #28a745;
+}
+
+.icon-view:hover {
+  color: #007bff;
+}
+
+/* Custom styling for the upload button */
+.btn-upload {
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  position: relative;
+}
+
+.btn-upload:hover {
+  background-color: #e0e0e0;
+}
+
+.container {
+  margin-top: 50px;
+}
+/* Button Container Styling */
+.btn-icon {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 5px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-logo {
+  width: 24px; /* Adjust size as needed */
+  height: 24px;
+}
+
+.btn-icon:hover .btn-logo {
+  opacity: 0.7; /* Slightly dim the icon on hover */
+}
+
+/* Optional: Add focus styles for accessibility */
+.btn-icon:focus {
+  outline: none; /* Remove default outline */
+}
+
+/* Optional: Add a border or background color for better visibility */
+.btn-icon:active .btn-logo {
+  background-color: #e0e0e0; /* Light background color on click */
+}
+/* Button Container Styling */
+.btn-icon {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 5px; /* Add some padding around the icon */
+  margin: 0 5px; /* Space between buttons */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* Center the icon inside the button */
+}
+
+/* Styling for the logo image */
+.btn-logo {
+  width: 16px; /* Set the width of the logo */
+  height: 16px; /* Set the height of the logo */
+  object-fit: contain; /* Ensure the image fits well */
+}
+
+/* Optional: Add hover effects */
+.btn-icon:hover .btn-logo {
+  opacity: 0.7; /* Slightly dim the icon on hover */
+}
+
+/* Optional: Add focus styles for accessibility */
+.btn-icon:focus {
+  outline: none; /* Remove default outline */
+}
+
+/* Optional: Add a border or background color for better visibility */
+.btn-icon:active .btn-logo {
+  background-color: #e0e0e0; /* Light background color on click */
+}
+
+
+

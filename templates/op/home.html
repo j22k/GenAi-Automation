@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/op/home.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -21,7 +25,7 @@
 
 <body>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <!-- Bootstrap JS and dependencies (Popper.js and jQuery) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -54,7 +58,12 @@
             <div class="icon-box" id="box2">
                 <img src="{{ url_for('static', filename='icons/appointment_icon.png')}}" alt="Icon 2">
                 <h3>Book appointment</h3>
-                <p>Add Inventory user</p>
+                <p></p>
+            </div>
+            <div class="icon-box" id="box3">
+                <img src="{{ url_for('static', filename='icons/patient_list.png')}}" alt="Icon 2">
+                <h3>Patient List</h3>
+                <p></p>
             </div>
 
             <!-- New icon box -->
@@ -112,7 +121,7 @@
                                     <div class="token-container">
                                         <input type="text" class="form-control" id="tokenNumber"
                                             placeholder="token number" required disabled>
-                                        <button type="button" class="btn btn-copy" onclick="copyTokenNumber()">
+                                        <button type="button" class="btn btn-copy" onclick="copyTokenNumber()" value="">
                                             <i class="fas fa-copy"></i> <!-- Font Awesome icon -->
                                         </button>
                                     </div>
@@ -152,7 +161,7 @@
                         <div class="alert alert-danger" role="alert" id="danger-alert" style="display: none;">
                             A simple danger alert—check it out!
                         </div>
-                        <form id="bookappoiment">
+                        <!-- <form id="bookappoiment">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
@@ -192,7 +201,7 @@
                                         <input type="text" class="form-control" id="tokenNumber1"
                                             placeholder="Enter token number" required >
                                         <button type="button" class="btn btn-copy" onclick="copyTokenNumber()">
-                                            <i class="fas fa-copy"></i> <!-- Font Awesome icon -->
+                                            <i class="fas fa-copy"></i> <!-- Font Awesome icon 
                                         </button>
                                     </div>
                                 </div>
@@ -205,13 +214,45 @@
                             <div class="form-footer">
                                 <button type="submit" class="btn_btn-primary">Register</button>
                             </div>
-                        </form>
+                        </form> -->
                     </div>
                 </div>
             </div>
         </div>
 
 
+        <div id="patientlistmodel" class="custom-modal">
+            <div class="custom-modal-dialog">
+                <div class="custom-modal-content">
+                    <div class="custom-modal-header">
+                        <h5 class="custom-modal-title">Register New Patient</h5>
+                        <button type="button" class="custom-close" onclick="closePatientListModal()">&times;</button>
+                    </div>
+                    <div class="custom-modal-body">
+                        <div class="alert alert-danger" role="alert" id="danger-alert" style="display: none;">
+                            A simple danger alert—check it out!
+                        </div>
+                        <div class="container mt-5">
+                            <h3 class="mb-4">Patient Records</h3>
+                            <table id="patientTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>P.NO</th>
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="patientTableBody">
+                                    <!-- Data will be populated here by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -222,61 +263,34 @@
 
 
 
-        <!--CHat Box CODE-->
-        <!-- Chat button -->
-        <button class="open-button" onclick="openForm()">Chat</button>
-
         <!-- Chat popup -->
-        <div class="chat-popup" id="myForm">
-            <form action="javascript:void(0);" class="form-container" onsubmit="sendMessage()">
-                <h1>Chat</h1>
+        <div class="main-content">
+            <button class="open-button" onclick="openForm()">Chat</button>
 
-                <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-popup" id="myForm">
+                <form action="javascript:void(0);" class="form-container" onsubmit="sendMessage()">
+                    <h1>Chat</h1>
 
-                <div class="response-bar" id="responseBar"></div>
+                    <div class="chat-messages" id="chatMessages"></div>
 
-                <label for="msg"><b>Message</b></label>
-                <textarea id="msg" placeholder="Type message.." name="msg" required></textarea>
+                    <div class="response-bar" id="responseBar"></div>
 
-                <button type="submit" class="btn">Send</button>
-                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-            </form>
-        </div>
+                    <label for="msg"><b>Message</b></label>
+                    <textarea id="msg" placeholder="Type message.." name="msg" required></textarea>
 
-        <div id="id01" class="modal">
-            <div class="modal-content animate">
-                <div class="imgcontainer">
-                    <span onclick="closeLoginModal()" class="close" title="Close">&times;</span>
-                    <img src="/Users/speed/Desktop/camerin_demo/BT.png" alt="" class="avatar">
-                </div>
-                <h2>WELCOME USER</h2>
-                <form action="/action_page.php" method="post">
-                    <div class="container">
-                        <label for="uname"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" name="uname" required>
-
-                        <label for="psw"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="psw" required>
-
-                        <button type="submit">Login</button>
-                        <label>
-                            <input type="checkbox" checked="checked" name="remember"> Remember me
-                        </label>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" onclick="closeLoginModal()" class="cancelbtn">Cancel</button>
-
-                        <span class="psw"> <a href="#"> Did you forget your password ?</a></span>
-                    </div>
-                    <p></p>
+                    <button type="submit" class="btn">Send</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
                 </form>
             </div>
         </div>
 
 
-        <script src="{{ url_for('static', filename='js/op/home.js') }}"></script>
 
+
+
+        <script src="{{ url_for('static', filename='js/op/home.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 </body>
 
 </html>

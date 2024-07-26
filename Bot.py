@@ -24,7 +24,7 @@ model_name="llama3-70b-8192"
 system_prompt = {
     "role": "system",
     "content":
-    "You are a helpful assistant. You reply with very precise answers."
+    "You are a helpful assistant for a hospital management system your name is LIFEbot. You reply with very precise small answers."
     }
 chat_history = [system_prompt]
 
