@@ -16,6 +16,7 @@ def authenticate_user(username,password):
         if user:
             if user["password"] == password:
                 session["userID"] = str(user["_id"])
+                session["user"] = "doctor"
                 print(f"Session : {session} \n User : {Collection["DOCTOR_USER"]}")
                 return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"],"User" : Collection["DOCTOR_USER"],"render" : "doctor/home"}
             else:
@@ -26,6 +27,7 @@ def authenticate_user(username,password):
             if user:
                 if user["password"] == password:
                     session["userID"] = str(user["_id"])
+                    session["user"] = "op"
                     print(f"Session : {session} \n User : {Collection["OP_USER"]}")
                     return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"], "User" : Collection["OP_USER"],"render" : "op/home"}
                 else:
@@ -36,6 +38,7 @@ def authenticate_user(username,password):
                 if user:
                     if user["password"] == password:
                         session["userID"] = str(user["_id"])
+                        session["user"] = "nurse"
                         print(f"Session : {session} \n User : {Collection["NURSE_USER"]}")
                         return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"],"User" : Collection["NURSE_USER"],"render" : "nurse/home"}
                     else:
@@ -46,6 +49,7 @@ def authenticate_user(username,password):
                     if user:
                         if user["password"] == password:
                             session["userID"] = str(user["_id"])
+                            session["user"] = "inventory"
                             print(f"Session : {session} \n User : {Collection["INVENTORY_USER"]}")
                             return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"],"User" : Collection["INVENTORY_USER"], "render" : "inventory/home"}
                         else:
@@ -56,6 +60,7 @@ def authenticate_user(username,password):
                         if user:
                             if user["password"] == password:
                                 session["userID"] =str(user["_id"])
+                                session["user"] = "admin"
                                 print(f"Session : {session} \n User : {Collection["ADMIN_USER"]}")
                                 return {"status": True, "message": "Login Sucessfull","_id" :str(session["userID"]),"name" : user["name"],"User" : Collection["ADMIN_USER"], "render" : "admin/home"}
                             else:

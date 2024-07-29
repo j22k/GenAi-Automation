@@ -6,6 +6,7 @@ function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
 
+// Function to send a message
 function sendMessage() {
     const messageContainer = document.getElementById('chatMessages');
     const messageInput = document.getElementById('msg');
@@ -32,13 +33,13 @@ function sendMessage() {
         .then(data => {
             console.log(data);
             displayResponse(data.response_message);
-            
         })
         .catch((error) => {
             console.error('Error:', error);
         });
     }
 }
+
 
 function displayResponse(response) {
     const messageContainer = document.getElementById('chatMessages');
@@ -99,8 +100,13 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
                     userType: data.User
                 }).toString();
                 window.location.href = `/op/home?${params}`;
-            } else {
-                
+            } else if (data.render == "inventory/home") {
+                const params = new URLSearchParams({
+                    id: data._id,
+                    name: data.name,
+                    userType: data.User
+                }).toString();
+                window.location.href = `inventory/home?${params}`;
             } {
                 
             }

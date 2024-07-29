@@ -4,6 +4,7 @@ from config.connection import get_db
 from config.config import Config
 from routes.admin_routes import admin_routes
 from routes.op_routes import op_routes
+from routes.inventory_routes import inventory_routes
 from function_calling import functons_background
 from Bot import chat
 from config.collections import Collection
@@ -26,6 +27,7 @@ else:
 
 app.register_blueprint(admin_routes, url_prefix='/admin')
 app.register_blueprint(op_routes, url_prefix='/op')
+app.register_blueprint(inventory_routes, url_prefix='/inventory')
 
 def dummy():
     function_sign_in = [
@@ -67,7 +69,7 @@ def signin():
                 elif response["User"] == Collection["NURSE_USER"]:
                      return True
                 elif response["User"] == Collection["INVENTORY_USER"]:
-                     return True
+                     return response
                 elif response["User"] == Collection["ADMIN_USER"]:
                      return response
                 else :
@@ -86,15 +88,19 @@ def send_message():
     msg = data.get('msg')
 
     logging.debug(msg)
+    logging.debug("\n\n Test 0 \n\n")
+    response = chat_instance.chat_for_function(msg)
+    logging.debug("\n\n Test 5 \n\n")
+    if response["name"] == "notfound":
+         response = chat_instance.chat_with_message(msg)
+         logging.debug("\n\n Test  \n\n")
+         return response
+    else:
+        logging.debug("\n\n Test 6 \n\n")
+        response = chat_instance.check_function(response)
+        logging.debug(f"\n\n 15  \n{response} \n")
+        return response
     
-    response = chat_instance.chat_with_message(msg)
-
-    logging.debug(f"Received message: {msg}")
-    logging.debug(f"response {response}")
-    # redirect_url = url_for('admin_home', message=response)
-    
-    return response
-
 @app.route('/admin_home')
 def admin_home():
     return render_template('admin/home.html')

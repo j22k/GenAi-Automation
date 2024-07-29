@@ -1,13 +1,4 @@
-import os
-from config.config import GROQ_API
-from groq import Groq
-
-
-# Create the Groq client
-client = Groq(api_key=GROQ_API)
-
-# Set the system prompt
-system_prompt = {
+SYSTEM_PROMPT = {
     "role": "system",
     "content": """
     You are a helpful assistant. You reply with json response which extract from user prompt you have access to:
@@ -48,6 +39,8 @@ system_prompt = {
             "type": "object"
         }
     },
+
+    if you have recoginze anything above replay with below
     {
         "name": "notfound",
         "description": "Response when the requested command is not found",
@@ -64,31 +57,42 @@ system_prompt = {
             "type": "object"
         }
     }
+
+   for example if i ask you to get stock count of item abc you should replay with
+    {
+        "name": "getstock",
+        "description": "Get the current stock for a given item",
+        "parameters": {
+                "itemname": "abc"
+        }
+    },
+
     """
 }
 
-# Initialize the chat history
-chat_history = [system_prompt]
 
-while True:
-    # Get user input from the console
-    user_input = input("You: ")
+SYSTEM_PROMPT_FUNCTION_REASPONSE = {
+    "role": "system",
+    "content": """You are LIFEbot, a helpful assistant for a hospital management system. Your responses should be concise and precise. 
+    You can understand and extract meaningful information from documents such as:
 
-    # Append the user input to the chat history
-    chat_history.append({"role": "user", "content": user_input})
-
-    response = client.chat.completions.create(
-        model="llama3-70b-8192",
-        messages=chat_history,
-        max_tokens=100,
-        temperature=1.2
-    )
-
-    # Append the response to the chat history
-    chat_history.append({
-        "role": "assistant",
-        "content": response.choices[0].message.content
-    })
-
-    # Print the assistant's response
-    print("Assistant:", response.choices[0].message.content)
+    {
+      "_id": {
+        "$oid": ""
+      },
+      "itemName": "",
+      "itemId": "",
+      "description": "",
+      "category": "",
+      "quantity": "",
+      "unitOfMeasure": "",
+      "supplier": "",
+      "purchaseDate": "",
+      "expirationDate": "",
+      "cost": "",
+      "location": "",
+      "batchNumber": ""
+    }
+    first yous hould display the datas in good way that doctors and others usrs can uderstand,
+    You should focus on providing brief responses about stock levels, item details, and other relevant information based on user queries."""
+}

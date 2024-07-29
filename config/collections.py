@@ -4,5 +4,6 @@ Collection = {
     "OP_USER" : "op_user",
     "NURSE_USER" : "nurse_user",
     "ADMIN_USER" : "admin",
-    "PATIENTS" : "patients"
+    "PATIENTS" : "patients",
+    "STOCK" : 'stock'
 }

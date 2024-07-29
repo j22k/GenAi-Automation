@@ -2,7 +2,9 @@ import requests
 import logging
 from function_calling import functons_background
 from config.config import GROQ_API
+from config.prompt_template import SYSTEM_PROMPT,SYSTEM_PROMPT_FUNCTION_REASPONSE
 from groq import Groq
+import json
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -46,17 +48,72 @@ class chat:
         
         except requests.exceptions.HTTPError as http_err:
             logging.error(f"HTTP error occurred: {http_err}")
-            return {"status": "error", "message": "HTTP error occurred"}
+            return {"status": "error", "response_message": "HTTP error occurred"}
         except requests.exceptions.RequestException as req_err:
             logging.error(f"Request failed: {req_err}")
-            return {"status": "error", "message": "Request failed"}
-        
-def switch_case(message):
-    if message[2] == "Sign_in":
-        return functons_background.log_in(message[0],message[1])
+            return {"status": "error", "response_message": "Request failed"}
 
-def find_matching_function(functions_name, target_function):
-    if target_function in functions_name:
-        return target_function
-    else:
-        print(f"The value {target_function} is not present in the list.")
+
+    def chat_for_function(self,user_input):
+       
+        # Initialize the chat history
+        chat_history = [SYSTEM_PROMPT]
+
+        chat_history.append({"role": "user", "content": user_input})
+        logging.debug("\n\n 1 \n\n")
+        response = client.chat.completions.create(
+            model="llama3-70b-8192",
+            messages=chat_history,
+            max_tokens=100,
+            temperature=1.2
+        )
+        logging.debug("\n\n 2 \n\n")
+        # Append the response to the chat history
+        chat_history.append({
+            "role": "assistant",
+            "content": response.choices[0].message.content
+        })
+        logging.debug("\n\n 3 \n\n")
+        # Print the assistant's response
+        logging.debug(f" \n\n Assistant:{response.choices[0].message.content}")
+        logging.debug(type(response.choices[0].message.content))
+        response_json = json.loads(response.choices[0].message.content)
+        logging.debug("\n\n 4 \n\n")
+        return (response_json)
+    
+    def check_function(self,data):
+        if data["name"] == "getstock":
+            logging.debug("\n\n Test 7 \n\n")
+            response = functons_background.getStock(data)
+            logging.debug("\n\n 11 \n\n")
+            if response["status"]:
+                try:
+                    chat_history = [SYSTEM_PROMPT_FUNCTION_REASPONSE]
+                    chat_history.append({"role": "user", "content": response["itemstock"]})
+                    logging.debug("\n\n 12 \n\n")
+                    response = client.chat.completions.create(
+                            model="llama3-70b-8192",
+                            messages=chat_history,
+                            max_tokens=100,
+                            temperature=1.2
+                        )
+                    logging.debug("\n\n 13 \n\n")
+                        # Append the response to the chat history
+                    chat_history.append({
+                            "role": "assistant",
+                            "content": response.choices[0].message.content
+                        })
+                    logging.debug("\n\n 14 \n\n")
+                        # Print the assistant's response
+                    logging.debug(f" \n\n Assistant:{response.choices[0].message.content}")
+                    logging.debug(type(response.choices[0].message.content))
+                    return ({"response_message" : response.choices[0].message.content})
+            
+                except requests.exceptions.HTTPError as http_err:
+                    logging.error(f"HTTP error occurred: {http_err}")
+                    return {"status": "error", "message": "HTTP error occurred"}
+            else :
+                
+                return response
+            
+           
