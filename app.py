@@ -63,7 +63,7 @@ def signin():
             response = functons_background.log_in(data["username"],data["password"])
             if response["status"]:
                 if response["User"] == Collection["DOCTOR_USER"]:
-                     return True
+                     return response
                 elif response["User"] == Collection["OP_USER"]:
                      return response
                 elif response["User"] == Collection["NURSE_USER"]:

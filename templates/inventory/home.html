@@ -17,6 +17,8 @@
         /* Button used to open the chat form - fixed at the bottom of the page */
     </style>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/inventory/home.css') }}">
+   
+    
 </head>
 
 <body>
@@ -61,76 +63,48 @@
 
     <!-- Modal for Box 1 with Registration Form -->
     <!-- Registration Form Modal for Box 1 -->
-    <div id="registrationModal" class="custom-modal">
+    <div id="stockitems" class="custom-modal">
         <div class="custom-modal-dialog">
             <div class="custom-modal-content">
                 <div class="custom-modal-header">
                     <h5 class="custom-modal-title">Register New Doctor</h5>
                     <button type="button" class="custom-close"
-                        onclick="closeModal('registrationModal')">&times;</button>
+                        onclick="closeModal('stockitems')">&times;</button>
                 </div>
                 <div class="alert alert-danger" role="alert" id="danger-alert" style="display: none;">
                     A simple danger alert—check it out!
                 </div>
                 <div class="custom-modal-body">
-                    <form id="addnewitemform">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="firstName">First Name</label>
-                                <input type="text" class="form-control" id="firstName" name="firstname"
-                                    placeholder="Enter first name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName">Last Name</label>
-                                <input type="text" class="form-control" id="lastName" name="lastname"
-                                    placeholder="Enter last name">
-                            </div>
+                    <div class="container">
+
+                        <div class="row height d-flex justify-content-center align-items-center">
+    
+                          <div class="col-md-8">
+    
+                            <h3 class="mb-4">Patient Records</h3>
+                            <table id="stockTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>ITEM ID</th>
+                                        <th>ITEM NAME</th>
+                                        <th>QUANTITY</th>
+                                        <th>COST</th>
+                                        <th>EXPIRE</th>
+                                        <th>CATEGORY</th>
+                                        <th>SUPPLIER</th>
+                                        <th>ORDER NOW</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stockTableBody">
+                                    <!-- Data will be populated here by JavaScript -->
+                                </tbody>
+                            </table>
+                            
+                          </div>
+                          
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="dob">Date of Birth</label>
-                                <input type="date" class="form-control" id="dob" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="gender">Gender</label>
-                                <select id="gender" class="form-control" name="gender" required>
-                                    <option value="">Select Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" class="form-control" id="phone" name="phonenumber"
-                                    placeholder="Enter phone number" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="tokenNumber">Token Number</label>
-                                <div class="token-container">
-                                    <input type="text" class="form-control" id="tokenNumber"
-                                        placeholder="token number" required disabled>
-                                    <button type="button" class="btn btn-copy" onclick="copyTokenNumber()" value="">
-                                        <i class="fas fa-copy"></i> <!-- Font Awesome icon -->
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <textarea class="form-control" id="address" name="address" placeholder="Enter address"
-                                required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="photo">Upload Photo</label>
-                            <input type="file" class="form-control" id="photo" name="image" accept="image/*">
-                        </div>
-                        <div class="form-footer">
-                            <button type="submit" class="btn_btn-primary">Register</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -249,7 +223,7 @@
 
 
     <script src="{{ url_for('static', filename='js/inventory/home.js') }}"></script>
-
+   
 </body>
 
 </html>

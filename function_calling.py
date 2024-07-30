@@ -1,6 +1,6 @@
 from flask import session
 from helpers.index_helpers import authenticate_user
-from helpers.inventory_helpers import getstock
+
 import logging
 
 class functons_background:
@@ -9,6 +9,7 @@ class functons_background:
         return response
     
     def getStock(data):
+        from helpers.inventory_helpers import getstock
         if session:
             if session["user"] == "admin" or session["user"] == "inventory":
                 itemstock = getstock(data)

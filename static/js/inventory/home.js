@@ -116,7 +116,7 @@ function closeModal(modalId) {
 
 // Add event listeners to the boxes to open the corresponding modals
 document.getElementById('box1').addEventListener('click', function() {
-    openModal('registrationModal');
+    openModal('stockitems');
 });
 
 document.getElementById('box2').addEventListener('click', function() {
@@ -149,4 +149,84 @@ function showAlert(alertId, message) {
     setTimeout(() => {
         alertElement.style.display = 'none';
     }, 5000);
+}
+
+
+
+
+
+function displayStockTable(stockitems) {
+    const tableBody = document.getElementById('stockTableBody');
+    tableBody.innerHTML = '';  // Clear any existing content
+
+    // Check if patients is an array
+    if (!Array.isArray(stockitems)) {
+        console.error('Expected an array but got:', stockitems);
+        return;
+    }
+
+    // Create table rows
+    stockitems.forEach((stockitems, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>
+            ${stockitems.itemId}
+            </td>
+            <td>${stockitems.itemName}</td>
+            <td>${stockitems.quantity}</td>
+            <td>${stockitems.cost}</td>
+            <td>${stockitems.expirationDate}</td>
+            <td>${stockitems.category}</td>
+            <td>${stockitems.supplier}</td>
+            <td>
+                <button class="btn-icon" title="Edit" text="edit" onclick="oderItem('${stockitems._id}')">
+                    <img src="/static/icons/order_now_icon.png" alt="Edit" class="btn-logo">
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}
+
+document.getElementById('box1').addEventListener('click', function() {
+    fetch('/inventory/get_stock_list', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(stockList => {
+        console.log(stockList);
+        displayStockTable(stockList)
+        openModal('stockitems');
+        
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+    
+});
+
+
+function oderItem(itemId) {
+    console.log(itemId);
+
+    fetch('/inventory/order_item', {
+        method: 'POST', // Use POST method
+        headers: {
+            'Content-Type': 'application/json' // Sending JSON data
+        },
+        body: JSON.stringify({ itemId: itemId }) // Send itemId in request body
+    })
+    .then(response => response.json()) // Parse the JSON response
+    .then(data => {
+        console.log('Server response:', data);
+        // Handle the server response here
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle any errors here
+    });
 }

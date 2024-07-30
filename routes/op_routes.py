@@ -25,5 +25,4 @@ def op_patient_registration():
 
 @op_routes.route('/get_patient_list', methods=['GET'])
 def get_patient_list():
-    logging.debug(f"\n\n2\n\n")
     return jsonify(getpatientlistHelpers())

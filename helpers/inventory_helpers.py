@@ -1,6 +1,8 @@
 from config.connection import get_db
 import logging
+from bson import ObjectId
 from config.collections import Collection
+
 
 def addnewitemHelpers(data):
     db_connection = get_db()
@@ -30,7 +32,6 @@ def addnewitemHelpers(data):
         print(f"An error occurred: {e}")
         return {"status": False, "message": f"An error occurred: {e}"}
 
-
 def getstock(data):
     db_connection = get_db()
     if db_connection["status"] == "error":
@@ -50,3 +51,38 @@ def getstock(data):
     except Exception as e:
         print(f"An error occurred: {e}")
         return {"status": False, "response_message": f"An error occurred: {e}"}
+    
+
+def getstocklistHelpers():
+    db_connection = get_db()
+    if db_connection["status"] == "error":
+        return {"status": False, "message": "Database Connection Error"}
+    
+    db = db_connection["db"]
+
+    try:
+        patient_list = list(db.stock.find())
+        for patient in patient_list:
+            patient['_id'] = str(patient['_id'])
+        return patient_list
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return {"status": False, "message": f"An error occurred: {e}"}
+    
+def orderstockHelpers(itemID):
+    db_connection = get_db()
+    if db_connection["status"] == "error":
+        return {"status": False, "message": "Database Connection Error"}
+    
+    db = db_connection["db"]
+
+    try:
+        itemdetails = db.stock.find_one({"_id" : ObjectId(itemID["itemId"])})
+        logging.debug(f"\n\n{itemdetails}\n\n")
+        
+        return itemdetails
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return {"status": False, "message": f"An error occurred: {e}"}
