@@ -58,17 +58,34 @@ def order_item():
         del itemdetails["expirationDate"]
         del itemdetails["cost"]
         del itemdetails["batchNumber"]
-        itemdetails["email"] = "example@gmail.com"
         logging.debug(f"\n\n just looking {itemdetails}\n\n")
         draft_mail  =  chat_instance.draft_mail_for_oder(itemdetails)
-        
-        return {"mail" : draft_mail, "status" : True}
+        return {"draft_mail" : draft_mail , "status" : True}
     
     else:
         return {"status": False, "message": "Sorry, You dont have access!!"}
     
 @inventory_routes.route('/render_mail')
-def render_mail():
-    data = request.get_json()
-    logging.debug(f"\n\n{data}\n\n")
-    return render_template('inventory/mail.html', data )
+def render_mail_template():
+    args = request.args
+    logging.debug(f"\n\nRequest Args: {args}\n\n")
+    
+    # Retrieve the draft_mail parameter
+    draft_mail = args.get('draft_mail', 'Not Provided')
+    content = args.get('content', 'Not Provided')
+    email = args.get('email', 'Not Provided')
+    
+    # Initialize default values
+    subject = 'Not Provided'
+    
+    # Check if draft_mail contains structured data
+    if draft_mail != 'Not Provided':
+        # Extract subject from draft_mail
+        subject = draft_mail.split('subject=')[-1].strip()
+    
+    # Log the extracted values
+    logging.debug(f"Subject: {subject}")
+    logging.debug(f"Content: {content}")
+    logging.debug(f"Email: {email}")
+
+    return render_template('inventory/mail.html',subject=subject,content=content,email=email)

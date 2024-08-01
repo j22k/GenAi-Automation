@@ -253,16 +253,19 @@ function oderItem(itemId) {
         },
         body: JSON.stringify({ itemId: itemId }) // Send itemId in request body
     })
-    .then(response => response.json()) // Parse the JSON response
-    .then(data => {
-        console.log('Server response:', data);
-        // Handle the server response here
-    })
     .then(response => response.json())
     .then(data => {
         console.log(data);
         if (data.status) {
-            window.location.href = `/inventory/render_mail?${data}`;
+            console.log(data.draft_mail);
+            // Assuming you want to render mail using the draft_mail key in response
+            const params = new URLSearchParams({
+                subject: data.draft_mail.subject,
+                content : data.draft_mail.content,
+                email : data.draft_mail.recipientEmail
+            }).toString();
+            console.log(data.draft_mail.subject);
+            window.location.href = `/inventory/render_mail?draft_mail=${params}`;
         } else {
             showAlert('danger-alert', data.message);
         }
