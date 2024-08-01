@@ -108,5 +108,3 @@ SYSTEM_PROMPT_EMAIL_QUOTATION = {
     dont add any thing rather tha json
 """
 }
-
-
