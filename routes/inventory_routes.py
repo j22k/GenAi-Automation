@@ -20,7 +20,7 @@ def home():
 def add_new_stock():
     
     data = request.get_json()  
-    logging.debug(data)
+    logging.debug(f"\n\n{data}\n\n")
     if not data:
         return jsonify({'error': 'No data provided'}), 400
     logging.debug(session["user"] == "inventory")
@@ -58,10 +58,17 @@ def order_item():
         del itemdetails["expirationDate"]
         del itemdetails["cost"]
         del itemdetails["batchNumber"]
-        logging.debug(f"\n\n just looking\n\n")
+        itemdetails["email"] = "example@gmail.com"
+        logging.debug(f"\n\n just looking {itemdetails}\n\n")
         draft_mail  =  chat_instance.draft_mail_for_oder(itemdetails)
         
         return {"mail" : draft_mail, "status" : True}
     
     else:
         return {"status": False, "message": "Sorry, You dont have access!!"}
+    
+@inventory_routes.route('/render_mail')
+def render_mail():
+    data = request.get_json()
+    logging.debug(f"\n\n{data}\n\n")
+    return render_template('inventory/mail.html', data )

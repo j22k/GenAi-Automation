@@ -1,3 +1,4 @@
+from flask import jsonify
 import requests
 import logging
 from function_calling import functons_background
@@ -124,7 +125,7 @@ class chat:
         chat_history_for_mail.append({"role": "user", "content": str(data)})
         logging.debug(f"\n\n 1{chat_history_for_mail} \n\n")
         response = client.chat.completions.create(
-                model="llama-3.1-70b-versatile",
+                model="llama3-70b-8192",
                 messages=chat_history_for_mail,
                 max_tokens=500,
                 temperature=1.2
@@ -136,7 +137,7 @@ class chat:
         # Print the assistant's response
         logging.debug(f" \n\n Assistant:{response.choices[0].message.content}")
         logging.debug(type(response.choices[0].message.content))
-        
-        logging.debug("\n\n 4 \n\n")
-        logging.debug(type(response.choices[0].message.content))
-        return response.choices[0].message.content           
+        response_json = json.loads(response.choices[0].message.content)
+        logging.debug(f"\n\n  {response_json} \n\n")
+        logging.debug(type(response_json))
+        return response_json           

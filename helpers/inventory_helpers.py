@@ -22,7 +22,7 @@ def addnewitemHelpers(data):
             return {"status": False, "message": "item Name already exisit"}
         
         if collection.find_one({"itemId": data["itemId"]}):
-            return {"status": False, "message": "itemId Name already exisit"}
+            return {"status": False, "message": "item ID already exisit"}
          
         # Insert the data into the collection
         result = collection.insert_one(data)
@@ -79,8 +79,6 @@ def orderstockHelpers(itemID):
 
     try:
         itemdetails = db.stock.find_one({"_id" : ObjectId(itemID["itemId"])})
-        logging.debug(f"\n\n{itemdetails}\n\n")
-        
         return itemdetails
     
     except Exception as e:

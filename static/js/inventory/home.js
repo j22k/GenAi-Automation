@@ -189,6 +189,39 @@ function displayStockTable(stockitems) {
     });
 }
 
+// Handle form submission for modal2
+document.getElementById('stockRegistrationForm').addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    fetch('/inventory/add_new_stock', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status) {
+            alert(`item ${data.itemName} created successfully`)
+            closeModal('addnewitem');
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch((error) => {
+        alert( error);
+    });
+
+   
+    
+});
+
+
 document.getElementById('box1').addEventListener('click', function() {
     fetch('/inventory/get_stock_list', {
         method: 'GET',
@@ -224,6 +257,15 @@ function oderItem(itemId) {
     .then(data => {
         console.log('Server response:', data);
         // Handle the server response here
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data.status) {
+            window.location.href = `/inventory/render_mail?${data}`;
+        } else {
+            showAlert('danger-alert', data.message);
+        }
     })
     .catch(error => {
         console.error('Error:', error);
