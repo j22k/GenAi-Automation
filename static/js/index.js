@@ -107,8 +107,13 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
                     userType: data.User
                 }).toString();
                 window.location.href = `inventory/home?${params}`;
-            } {
-                
+            }else if (data.render == "doctor/home") {
+                const params = new URLSearchParams({
+                    id: data._id,
+                    name: data.name,
+                    userType: data.User
+                }).toString();
+                window.location.href = `doctor/home?${params}`;
             }
         } else {
             showAlert('danger-alert', data.message);

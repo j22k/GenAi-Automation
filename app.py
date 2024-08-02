@@ -5,6 +5,7 @@ from config.config import Config
 from routes.admin_routes import admin_routes
 from routes.op_routes import op_routes
 from routes.inventory_routes import inventory_routes
+from routes.doctor_routes import doctor_routes
 from function_calling import functons_background
 from Bot import chat
 from config.collections import Collection
@@ -28,6 +29,7 @@ else:
 app.register_blueprint(admin_routes, url_prefix='/admin')
 app.register_blueprint(op_routes, url_prefix='/op')
 app.register_blueprint(inventory_routes, url_prefix='/inventory')
+app.register_blueprint(doctor_routes, url_prefix='/doctor')
 
 def dummy():
     function_sign_in = [
