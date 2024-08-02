@@ -1,15 +1,15 @@
 
-    // Function to open the chat form
-    function openForm() {
-        const form = document.getElementById('myForm');
-        form.classList.add('active'); // Add active class to show the form
-    }
-    
-    // Function to close the chat form
-    function closeForm() {
-        const form = document.getElementById('myForm');
-        form.classList.remove('active'); // Remove active class to hide the form
-    }
+// Function to open the chat form
+function openForm() {
+    const form = document.getElementById('myForm');
+    form.classList.add('active'); // Add active class to show the form
+}
+
+// Function to close the chat form
+function closeForm() {
+    const form = document.getElementById('myForm');
+    form.classList.remove('active'); // Remove active class to hide the form
+}
 
 
 // Function to display the backend response
@@ -33,7 +33,7 @@ function handleClickOutside(event) {
 // Add event listener to the document to handle clicks outside
 document.addEventListener('click', handleClickOutside);
 // Event listener for the Enter key in the textarea
-document.getElementById('msg').addEventListener('keydown', function(event) {
+document.getElementById('msg').addEventListener('keydown', function (event) {
     if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
         sendMessage();
@@ -51,32 +51,76 @@ function closeModal(modalId) {
 }
 
 // Add event listeners to the boxes to open the corresponding modals
-document.getElementById('box1').addEventListener('click', function() {
+document.getElementById('box1').addEventListener('click', function () {
     openModal('registrationModal');
 });
 
-document.getElementById('box2').addEventListener('click', function() {
-    openModal('model2');
+
+document.getElementById('box2').addEventListener('click', function () {
+    fetch('/op/get_doctors', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(docs => {
+            console.log(docs[0].department+ "-" + docs[0].qualification);
+            openModal('Bookappointmentmodel');
+            displaydoctors(docs)
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
 });
 
-document.getElementById('box3').addEventListener('click', function() {
+function displaydoctors(doctors){
+    const selectElement = document.getElementById('doctor');
+
+            // Check if the select element exists
+            if (!selectElement) {
+                console.error('Select element not found.');
+                return;
+            }
+
+            // Clear existing options
+            selectElement.innerHTML = '<option value="">Select Doctor</option>';
+
+            // Check if doctors is an array
+            if (!Array.isArray(doctors)) {
+                console.error('Expected an array but got:', doctors);
+                return;
+            }
+            
+            // Populate the select element with options
+            doctors.forEach(doctor => {
+                const option = document.createElement('option');
+                option.value = doctor._id;
+                option.textContent = doctor.name + "-" + doctor.department+ "-" + doctor.qualification;
+                selectElement.appendChild(option);
+            });
+}
+
+
+document.getElementById('box3').addEventListener('click', function () {
     fetch('/op/get_patient_list', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     })
-    .then(response => response.json())
-    .then(patients => {
-        console.log(patients);
-        displayPatientTable(patients)
-        openModal('patientlistmodel');
-        
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-    
+        .then(response => response.json())
+        .then(patients => {
+            console.log(patients);
+            displayPatientTable(patients)
+            openModal('patientlistmodel');
+
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
 });
 
 
@@ -113,7 +157,7 @@ function displayPatientTable(patients) {
 
 
 // Close modals when clicking outside of them
-window.onclick = function(event) {
+window.onclick = function (event) {
     const modals = document.getElementsByClassName('custom-modal'); // Updated class name
     for (let i = 0; i < modals.length; i++) {
         if (event.target == modals[i]) {
@@ -124,22 +168,22 @@ window.onclick = function(event) {
 
 
 // Function to open a specific modal
-function openModal(modalId) {
-    document.getElementById(modalId).style.display = 'block';
-}
+// function openModal(modalId) {
+//     document.getElementById(modalId).style.display = 'block';
+// }
 
 // Function to close a specific modal
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
+// function closeModal(modalId) {
+//     document.getElementById(modalId).style.display = 'none';
+// }
 
-// Add event listener to Box 2 to open its corresponding modal
-document.getElementById('box2').addEventListener('click', function() {
-    openModal('modal2');
-});
+// // Add event listener to Box 2 to open its corresponding modal
+// document.getElementById('box2').addEventListener('click', function () {
+//     openModal('modal2');
+// });
 
 // Close modals when clicking outside of them
-window.onclick = function(event) {
+window.onclick = function (event) {
     const modals = document.getElementsByClassName('custom-modal');
     for (let i = 0; i < modals.length; i++) {
         if (event.target == modals[i]) {
@@ -149,23 +193,23 @@ window.onclick = function(event) {
 };
 
 
-// Function to open a specific modal
-function openModal(modalId) {
-    document.getElementById(modalId).style.display = 'block';
-}
+// // Function to open a specific modal
+// function openModal(modalId) {
+//     document.getElementById(modalId).style.display = 'block';
+// }
 
-// Function to close a specific modal
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
+// // Function to close a specific modal
+// function closeModal(modalId) {
+//     document.getElementById(modalId).style.display = 'none';
+// }
 
 // Add event listener to Box 2 to open its corresponding modal
-document.getElementById('box2').addEventListener('click', function() {
+document.getElementById('box2').addEventListener('click', function () {
     openModal('modal2');
 });
 
 // Close modals when clicking outside of them
-window.onclick = function(event) {
+window.onclick = function (event) {
     const modals = document.getElementsByClassName('custom-modal');
     for (let i = 0; i < modals.length; i++) {
         if (event.target == modals[i]) {
@@ -175,20 +219,20 @@ window.onclick = function(event) {
 };
 
 
-// Function to open a specific modal
-function openModal(modalId) {
-    document.getElementById(modalId).style.display = 'block';
-}
+// // Function to open a specific modal
+// function openModal(modalId) {
+//     document.getElementById(modalId).style.display = 'block';
+// }
 
-// Function to close a specific modal
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
+// // Function to close a specific modal
+// function closeModal(modalId) {
+//     document.getElementById(modalId).style.display = 'none';
+// }
 
 
 
 // Close modals when clicking outside of them
-window.onclick = function(event) {
+window.onclick = function (event) {
     const modals = document.getElementsByClassName('custom-modal');
     for (let i = 0; i < modals.length; i++) {
         if (event.target == modals[i]) {
@@ -205,13 +249,13 @@ function openPatientRegistrationModal() {
 }
 
 // Function to close the patient registration modal
-function closePatientRegistrationModal() {
-    var modal = document.getElementById('modal2');
+function closeappointmentRegistrationModal() {
+    var modal = document.getElementById('Bookappointmentmodel');
     modal.style.display = 'none';
 }
 
 // Close the modal if the user clicks outside of it
-window.onclick = function(event) {
+window.onclick = function (event) {
     var modal = document.getElementById('modal2');
     if (event.target === modal) {
         closePatientRegistrationModal();
@@ -230,7 +274,7 @@ function closePatientRegistrationModal() {
 }
 
 // Close the modal if the user clicks outside of it
-window.addEventListener('click', function(event) {
+window.addEventListener('click', function (event) {
     var modal = document.getElementById('modal2');
     var modalContent = document.querySelector('.custom-modal-content');
 
@@ -245,7 +289,7 @@ function closePatientListModal() {
 }
 
 // Close the modal if the user clicks outside of it
-window.addEventListener('click', function(event) {
+window.addEventListener('click', function (event) {
     var modal = document.getElementById('patientlistmodel');
     var modalContent = document.querySelector('.custom-modal-content');
 
@@ -263,9 +307,9 @@ function copyTokenNumber() {
     }).catch(err => {
         console.error('Failed to copy: ', err);
     });
-    tokenInput.disabled = true; 
+    tokenInput.disabled = true;
 }
-document.getElementById('patientRegistrationForm').addEventListener('submit', function(e) {
+document.getElementById('patientRegistrationForm').addEventListener('submit', function (e) {
     e.preventDefault(); // Prevent form submission
 
     const formData = new FormData(this);
@@ -278,20 +322,20 @@ document.getElementById('patientRegistrationForm').addEventListener('submit', fu
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status) {
-            const tokenInput = document.getElementById('tokenNumber');
-            tokenInput.value = data.user_id;
-            alert(data.message);
-            closePatientRegistrationModal()
-        } else {
-            showAlert('danger-alert', data.message);
-        }
-    })
-    .catch((error) => {
-        showAlert('danger-alert', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                const tokenInput = document.getElementById('tokenNumber');
+                tokenInput.value = data.user_id;
+                alert(data.message);
+                closePatientRegistrationModal()
+            } else {
+                showAlert('danger-alert', data.message);
+            }
+        })
+        .catch((error) => {
+            showAlert('danger-alert', error);
+        });
 
     return false; // Ensure the form doesn't reload the page
 });
@@ -324,15 +368,15 @@ function sendMessage() {
             },
             body: JSON.stringify({ msg: message }),
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            displayResponse(data.response_message);
-            
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                displayResponse(data.response_message);
+
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 }
 
@@ -348,7 +392,7 @@ function showAlert(alertId, message) {
 }
 
 // Initialize DataTables
-$(document).ready(function() {
+$(document).ready(function () {
     $('#patientTable').DataTable({
         "paging": true,    // Enable pagination
         "ordering": true,  // Enable column ordering
@@ -366,13 +410,13 @@ $(document).ready(function() {
     });
 
     // Handle dropdown change event
-    $('.gender-dropdown').on('change', function() {
+    $('.gender-dropdown').on('change', function () {
         const selectedValue = $(this).val();
         console.log(`Selected gender: ${selectedValue}`);
     });
 
     // Handle result link click event
-    $('.result-link').on('click', function(event) {
+    $('.result-link').on('click', function (event) {
         event.preventDefault(); // Prevent default link behavior
         const href = $(this).attr('href');
         window.open(href, '_blank'); // Open PDF in a new tab
@@ -395,11 +439,11 @@ function handleDelete(rowId) {
 }
 
 // Bind click events to buttons within the table rows
-$(document).ready(function() {
-    $('.btn-icon').on('click', function() {
+$(document).ready(function () {
+    $('.btn-icon').on('click', function () {
         const row = $(this).closest('tr');
         const rowId = row.find('td:first').text(); // Assuming ID is in the first column
-        
+
         if ($(this).find('img').attr('alt') === 'Edit') {
             handleEdit(rowId);
         } else if ($(this).find('img').attr('alt') === 'Delete') {
@@ -407,3 +451,65 @@ $(document).ready(function() {
         }
     });
 });
+
+
+function tokenChange() {
+    var tokenInput = document.getElementById("tokenNumberID");
+    if (tokenInput) {
+        tokenInput.addEventListener("input", function () {
+            console.log('Input value changed:', tokenInput.value);
+            fetch('/op/fetch_patients', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ID: tokenInput.value }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    document.getElementById("firstname").value = data.firstname
+                    document.getElementById("lastname").value = data.lastname
+                    document.getElementById("DOB").value = data.date
+                    document.getElementById("Gender").value = data.gender
+                    document.getElementById("phoneno").value = data.phonenumber
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+    } else {
+        console.error('Element with ID "tokenNumber" not found');
+    }
+
+}
+
+document.getElementById('appointmentRegistrationForm').addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent form submission
+
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    console.log(data);
+    fetch('/op/appoinment_registration', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                alert(data.message);
+                closeappointmentRegistrationModal()
+            } else {
+                alert('danger-alert', data.message);
+            }
+        })
+        .catch((error) => {
+            alert('danger-alert', error);
+        });
+
+    return false; // Ensure the form doesn't reload the page
+});
+

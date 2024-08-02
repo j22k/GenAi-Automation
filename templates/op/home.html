@@ -146,27 +146,6 @@
         </div>
 
 
-        <!-- Modal for Box 2 -->
-        <!-- Modal for Box 2 (New Inventory User Registration) -->
-        <!-- Modal for Box 2 -->
-        <div id="modal2" class="custom-modal">
-            <div class="custom-modal-dialog">
-                <div class="custom-modal-content">
-                    <div class="custom-modal-header">
-                        <h5 class="custom-modal-title">Register New Patient</h5>
-                        <button type="button" class="custom-close"
-                            onclick="closePatientRegistrationModal()">&times;</button>
-                    </div>
-                    <div class="custom-modal-body">
-                        <div class="alert alert-danger" role="alert" id="danger-alert" style="display: none;">
-                            A simple danger alert—check it out!
-                        </div>
-                       
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
         <div id="patientlistmodel" class="custom-modal">
             <div class="custom-modal-dialog">
@@ -204,10 +183,92 @@
 
 
 
-        <!-- Button to open the modal -->
+        <div id="Bookappointmentmodel" class="custom-modal">
+            <div class="custom-modal-dialog">
+                <div class="custom-modal-content">
+                    <div class="custom-modal-header">
+                        <h5 class="custom-modal-title">Appointment Form</h5>
+                        <button type="button" class="custom-close"
+                            onclick="closeappointmentRegistrationModal()">&times;</button>
+                    </div>
 
+                    <div class="custom-modal-body">
+                        <form id="appointmentRegistrationForm">
+                        <div class="form-group">
+                            <label for="tokenNumber">Token Number</label>
+                            <div class="token-container">
+                                <input type="text" class="form-control" id="tokenNumberID"
+                                    placeholder="Enter token number" name="patientId" value="" required oninput="tokenChange()" >
+                            
+                            </div>
+                        </div>
+                        
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstname"
+                                        placeholder="Enter first name" required disabled >
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" class="form-control" id="lastname" placeholder="Enter last name"
+                                        required disabled>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth</label>
+                                    <input type="date" class="form-control" id="DOB"  required disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select id="Gender" class="form-control" required disabled>
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phoneno" placeholder="Enter phone number"
+                                        required disabled>
+                                </div>
 
+                            </div>
+                            <div class="form-group">
+                                <label for="doctor">Select Doctor</label>
+                                <select id="doctor" name="doc_id" class="form-control" required>
+                                    <option value="">Select Doctor</option>
+                                    
+                                </select>
+                            </div>
 
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">Date</label>
+                                    <input type="date" class="form-control" id="date"
+                                    name="date" required >
+                                </div>
+                                <div class="form-group">
+                                    <label for="appt">Choose a time for your appointment</label>
+                                   
+                                    <input type="time" class="form-control" 
+                                    id="appt" name="appt" required >
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="form-footer">
+                                <button type="submit" class="btn_btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <!-- Chat popup -->

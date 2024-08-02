@@ -1,4 +1,4 @@
-from helpers.op_helpers import addpatientHelpers,getpatientlistHelpers
+from helpers.op_helpers import addpatientHelpers,getpatientlistHelpers,getPatient,getdoctorHelpers,addappointmentHelpers
 import logging
 from flask import Blueprint, jsonify, request,render_template
 
@@ -26,3 +26,21 @@ def op_patient_registration():
 @op_routes.route('/get_patient_list', methods=['GET'])
 def get_patient_list():
     return jsonify(getpatientlistHelpers())
+
+@op_routes.route('/get_doctors', methods=['GET'])
+def get_doctors():
+    return jsonify(getdoctorHelpers())
+
+@op_routes.route('/fetch_patients', methods=['POST'])
+def fetch_patients():
+    ID = request.get_json()
+    logging.debug(f"\n\n {ID}\n\n")
+    logging.debug(f"\n\n {ID["ID"]}\n\n")
+    return jsonify(getPatient(ID))
+
+@op_routes.route('/appoinment_registration', methods=['POST'])
+def appoinment_registration():
+    data = request.get_json()
+    logging.debug(f"\n\n {data}\n\n")
+    result = addappointmentHelpers(data)
+    return result
