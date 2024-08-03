@@ -14,31 +14,32 @@ def getappointmentsHelpers():
     db = db_connection["db"]
     # Assume the doctor's ID is stored in the session
     doctor_id = session.get('userID')
-    logging.debug(f"\n\n {doctor_id} \n\n")
     # Get today's date in the correct format
     today_date = datetime.now().strftime('%Y-%m-%d')
-    logging.debug(f"\n\n {today_date} \n\n")
     # Query to find all appointments for the doctor today
-    appointments = db.appointments.find({
-        'doc_id': doctor_id,
-        'date': today_date
-    })
-    appointments_list = list(appointments)
-    logging.debug(f"\n\n {appointments_list} \n\n")
+    logging.debug(f"\n\n {doctor_id} \n\n")
+    logging.debug(f"\n\n {today_date} \n\n")
+    logging.debug(f"\n\n {type(today_date)} \n\n")
+    appointments = list(db.appointments.find(
+        {'doc_id': doctor_id, 'date' : today_date}
+    ))
+    logging.debug(f" todays \n\n {appointments} \n\n")
     # Retrieve patient details for each appointment
+    
     results = []
     for appointment in appointments:
         patient_id = appointment['patientId']
-        patient = db.patients.find_one({'_id': patient_id})
+        patient = db.patients.find_one({'_id': ObjectId(patient_id)})
         if patient:
             results.append({
-                'appointment': appointment,
+                'appointmenttime': appointment['appt'],
                 'patient': patient
             })
 
     logging.debug(f"\n\n {results} \n\n")
     # Print the results
     for result in results:
-        print(f"Appointment: {result['appointment']}")
         print(f"Patient: {result['patient']}")
-    return True
+       
+   
+    return results

@@ -100,6 +100,8 @@ def addappointmentHelpers(data):
         collection = db[collection_name]
        
         logging.debug(f"\n\n {data} \n\n")
+        logging.debug(f"\n\n {data['date']} \n\n")
+        logging.debug(f"\n\n {type(data['date'])} \n\n")
         # Insert the data into the collection
         collection.insert_one(data)
         return {"status": True, "message": "appointment registerd successfully"}

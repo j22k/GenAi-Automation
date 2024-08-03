@@ -6,10 +6,10 @@ doctor_routes = Blueprint('doctor_routes', __name__, template_folder='templates'
 
 @doctor_routes.route('/home')
 def home():
-    args = request.args
-    user_id = args.get('id', 'Not Provided')
-    name = args.get('name', 'Not Provided')
-    user_type = args.get('userType', 'Not Provided')
-    appointmestToaday = getappointmentsHelpers()
-    return render_template('doctor/home.html', user_id=user_id, name=name, user_type=user_type, apointments=appointmestToaday)
-
+    appointmentsoTaday = getappointmentsHelpers()
+    
+    logging.debug(f"\n\n\nAppointments data: {appointmentsoTaday}")
+    logging.debug(f"\n\n\nLength of data: {len(appointmentsoTaday)}")
+    logging.debug(f"\n\n\nType of data: {type(appointmentsoTaday)}")
+    
+    return render_template('doctor/home.html', appointments=appointmentsoTaday)
