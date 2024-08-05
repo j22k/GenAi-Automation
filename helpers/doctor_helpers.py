@@ -43,3 +43,22 @@ def getappointmentsHelpers():
        
    
     return results
+
+
+def getPatient(ID):
+    db_connection = get_db()
+    if db_connection["status"] == "error":
+        return {"status": False, "message": "Database Connection Error"}
+    
+    db = db_connection["db"]
+
+    try:
+        logging.debug(f"\n\n {ID}\n\n")
+        patient = db.patients.find_one({"_id" : ObjectId(ID)})
+        del patient["_id"]
+        logging.debug(f"\n\n {patient}\n\n")
+        return patient
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return {"status": False, "message": f"An error occurred: {e}"}

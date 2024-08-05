@@ -247,4 +247,89 @@
 }
 
 
-
+.chat-popup {
+    display: none; /* Initially hide the chat popup */
+    position: fixed; /* Fixed position for the popup */
+    bottom: 20px; /* Position it at the bottom */
+    right: 20px; /* Position it at the right */
+    z-index: 1000; /* Ensure it stays on top */
+    border: 1px solid #ccc; /* Border for styling */
+    background-color: #fff; /* Background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+    border-radius: 25px; /* Rounded corners */
+    width: 300px; /* Width of the popup */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    opacity: 0; /* Start as transparent */
+    transform: translateY(20px); /* Start with a slight offset */
+  }
+  
+  /* Show the chat popup when it's active */
+  .chat-popup.active {
+    display: block; /* Display the popup */
+    opacity: 1; /* Fully opaque */
+    transform: translateY(0); /* Move into view */
+  }
+  
+  /* Styling for the open button */
+  .open-button {
+    background-color: #000000; /* Button background color */
+    color: white; /* Button text color */
+    padding: 16px 20px; /* Padding for the button */
+    border: none; /* Remove border */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 25px; /* Rounded corners */
+    position: fixed; /* Fixed position for pop-up effect */
+    bottom: 80px; /* Position it above the chat form */
+    right: 20px; /* Align it with the form */
+    z-index: 1000; /* Ensure it stays on top */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+  }
+  
+  .open-button:hover {
+    background-color: #62b6e3; /* Darker green on hover */
+  }
+  
+  /* Chat messages styling */
+  .chat-messages {
+    flex-grow: 1;
+    overflow-y: auto; /* Allow vertical scrolling */
+    max-height: 300px; /* Set maximum height */
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f1f1f1; /* Light background color for messages */
+  }
+  
+  /* Message text area styling */
+  textarea {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    resize: none; /* Disable resizing */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Inner shadow for depth */
+  }
+  
+  /* Send and Close buttons styling */
+  .btn {
+    background-color: #4CAF50; /* Button background color */
+    color: white; /* Button text color */
+    padding: 10px 15px; /* Padding for buttons */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-top: 10px; /* Space above button */
+    width: 100%; /* Full-width button */
+  }
+  
+  .btn.cancel {
+    background-color: #f44336; /* Red background for cancel button */
+  }
+  
+  .btn:hover {
+    opacity: 0.9; /* Slightly transparent on hover */
+  }
+  

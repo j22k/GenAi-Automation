@@ -31,11 +31,7 @@ $(document).ready(function() {
 });
 // script.js
 
-// Function to handle Edit button click
-function handleEdit(rowId) {
-    alert(`Edit action for row ID: ${rowId}`);
-    // Implement your edit logic here
-}
+
 
 // Function to handle Delete button click
 function handleDelete(rowId) {
@@ -46,15 +42,21 @@ function handleDelete(rowId) {
 }
 
 // Bind click events to buttons within the table rows
-$(document).ready(function() {
-    $('.btn-icon').on('click', function() {
-        const row = $(this).closest('tr');
-        const rowId = row.find('td:first').text(); // Assuming ID is in the first column
+// $(document).ready(function() {
+//     $('.btn-icon').on('click', function() {
+//         const row = $(this).closest('tr');
+//         const rowId = row.find('td:first').text(); // Assuming ID is in the first column
         
-        if ($(this).find('img').attr('alt') === 'Edit') {
-            handleEdit(rowId);
-        } else if ($(this).find('img').attr('alt') === 'Delete') {
-            handleDelete(rowId);
-        }
-    });
-});
+//         if ($(this).find('img').attr('alt') === 'Edit') {
+//             handleEdit(rowId);
+//         } else if ($(this).find('img').attr('alt') === 'Delete') {
+//             handleDelete(rowId);
+//         }
+//     });
+// });
+
+function diagnosis(params) {
+    console.log(params);
+    
+    
+}
