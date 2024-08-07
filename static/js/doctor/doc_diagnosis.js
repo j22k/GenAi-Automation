@@ -206,55 +206,58 @@ function handleSubmit() {
 function inputChange() {
     var input = document.getElementById("input");
     if (input) {
-        input.addEventListener("input", function () {
-            console.log('Input value changed:', input.value);
+        input.addEventListener("keydown", function (e) {
+            console.log('Input:', input.value); // e.which is for key codes
+            console.log('Key pressed:', e.which); // e.which is for key codes
+            
+            if (e.which === 32) { // 9 is the key code for Tab
+                
+
+                const words = input.value.trim().split(/\s+/);
+                const lastWord = words.length > 0 ? words[words.length - 1] : '';
+                console.log('lastword : ',lastWord);
+
+                fetch('/doctor/fetch_next_words', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ word: lastWord }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('data from model : ',data.next_sentace);
+                       
+                        // Split the input value into an array of words
+                        const words = data.next_sentace.trim().split(/\s+/); // Split by one or more whitespace characters
+                        
+                        // Remove the first word and get the remaining words
+                        const remainingWords = words.length > 1 ? words.slice(1).join(' ') : '';
+    
+                        
+                        console.log('Input value after removing first word:', remainingWords);
+                        
+                        document.querySelector(".list").innerHTML = "";
+                        let listItem = document.createElement("li");
+                        listItem.classList.add("list-items");
+                        listItem.style.cursor = "pointer";
+                        listItem.setAttribute("onclick", `displayNames('${remainingWords}')`);
+    
+                        let highlightedText = `<b>${remainingWords.substr(0)}</b>`;
+                        // highlightedText += data.next_sentace.substr(currentWord.length);
+    
+                        listItem.innerHTML = highlightedText;
+                        document.querySelector(".list").appendChild(listItem);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            }
+            
+            
+
 
            
-            // Split the input value into an array of words
-            const words = input.value.trim().split(/\s+/); // Split by one or more whitespace characters
-    
-            // Get the last word if any words exist
-            const lastWord = words.length > 0 ? words[words.length - 1] : '';
-            
-            console.log('lastword : ',lastWord);
-            
-
-
-            fetch('/doctor/fetch_next_words', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ word: lastWord }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('data from model : ',data.next_sentace);
-                    
-                    // Split the input value into an array of words
-                    const words = data.next_sentace.trim().split(/\s+/); // Split by one or more whitespace characters
-                    
-                    // Remove the first word and get the remaining words
-                    const remainingWords = words.length > 1 ? words.slice(1).join(' ') : '';
-
-                    
-                    console.log('Input value after removing first word:', remainingWords);
-                    
-                    document.querySelector(".list").innerHTML = "";
-                    let listItem = document.createElement("li");
-                    listItem.classList.add("list-items");
-                    listItem.style.cursor = "pointer";
-                    listItem.setAttribute("onclick", `displayNames('${remainingWords}')`);
-
-                    let highlightedText = `<b>${remainingWords.substr(0)}</b>`;
-                    // highlightedText += data.next_sentace.substr(currentWord.length);
-
-                    listItem.innerHTML = highlightedText;
-                    document.querySelector(".list").appendChild(listItem);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
         });
     } else {
         console.error('Element with ID "tokenNumber" not found');
