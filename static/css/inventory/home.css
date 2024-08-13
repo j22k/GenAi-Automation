@@ -965,3 +965,39 @@ textarea.form-control {
         background: blue;
 
        }
+
+/* Base styles for the anchor tag */
+a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 4px; /* Rounded corners */
+  padding: 8px 12px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 1px solid transparent; /* To ensure border does not affect layout */
+}
+
+/* Style for the default button */
+.btn-icon {
+  background-color: yellow; /* Default color */
+  border-color: yellow; /* Border color to match background */
+}
+
+/* Style for the button when stockitem.status is true */
+.btn-danger {
+  background-color: red; /* Color for true status */
+  border-color: red; /* Border color to match background */
+}
+
+/* Optional: Style for the icon */
+.btn-logo {
+  width: 24px; /* Adjust size as needed */
+  height: 24px;
+}
+
+/* Optional: Hover effect */
+a:hover {
+  opacity: 0.8;
+}

@@ -2,6 +2,7 @@ import logging
 from flask import Blueprint, render_template,request
 from helpers.doctor_helpers import getappointmentsHelpers,getPatient
 from lstm_model import getNextWord
+from LSTM import make_prediction
 
 doctor_routes = Blueprint('doctor_routes', __name__, template_folder='templates')
 
@@ -35,8 +36,9 @@ def fetch_next_words():
     data = request.get_json()
     logging.debug(f"\n\n {data} \n\n")
 
-    response = getNextWord(data['word'])
-
+    #response = getNextWord(data['word'])
+    response = make_prediction(data['word'])
+    
     logging.debug(f"\n\n {response} \n\n")
     # if not patient:
     #     return {"status": False, "response_message": "Patient not found"}

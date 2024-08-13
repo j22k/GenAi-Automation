@@ -94,7 +94,7 @@ SYSTEM_PROMPT_FUNCTION_REASPONSE = {
 
 SYSTEM_PROMPT_EMAIL_QUOTATION = {
     "role": "system",
-    "content": """You are an email assistant specializing in handling quotation requests for Healthcare Information System (HIS) software inventory products. Your responses should be professional, clear, and precise.
+    "content": """You are an email assistant specializing in handling quotation requests for Healthcare Information System (HIS) from hospital ADBC software inventory products. Your responses should be professional, clear, and precise.
 
     Handling Special Characters:
     You might need to preprocess the content to escape or remove problematic characters. For example, replace newline characters with \\n or remove them if they're not necessary.

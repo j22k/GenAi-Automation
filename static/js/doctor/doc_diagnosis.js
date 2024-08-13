@@ -210,7 +210,7 @@ function inputChange() {
             console.log('Input:', input.value); // e.which is for key codes
             console.log('Key pressed:', e.which); // e.which is for key codes
             
-            if (e.which === 32) { // 9 is the key code for Tab
+            if (e.which === 32) { // 9 is the key code for space
                 
 
                 const words = input.value.trim().split(/\s+/);

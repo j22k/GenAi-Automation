@@ -23,9 +23,15 @@ def addnewitemHelpers(data):
         
         if collection.find_one({"itemId": data["itemId"]}):
             return {"status": False, "message": "item ID already exisit"}
-         
+        data['quantity'] = int(data['quantity'])
+        logging.debug(type(data['quantity']))
+        if data['quantity'] <= 50:
+            data['status'] = True
+        else:
+            data['status'] = False 
         # Insert the data into the collection
         result = collection.insert_one(data)
+        
         return {"status": True, "message": "Item added successfully"}
     
     except Exception as e:
